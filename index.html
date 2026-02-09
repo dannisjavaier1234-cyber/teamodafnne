@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Para la niña más hermosa de todas 💖</title>
+
+<style>
+body {
+  margin: 0;
+  height: 100vh;
+  font-family: 'Segoe UI', sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #fbc2eb, #a6c1ee);
+  overflow: hidden;
+}
+
+#memoryBackground {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 0;
+  filter: blur(6px);
+  opacity: 0.35;
+}
+
+#darkOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0,0,0,0.35);
+  z-index: 1;
+}
+
+.card {
+  background: white;
+  padding: 35px;
+  border-radius: 20px;
+  text-align: center;
+  width: 90%;
+  max-width: 380px;
+  box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+  z-index: 2;
+}
+
+h1 {
+  color: #ff4d6d;
+  font-size: 24px;
+}
+
+p {
+  color: #555;
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+small {
+  color: #888;
+  font-size: 12px;
+}
+
+button {
+  padding: 10px 18px;
+  border: none;
+  border-radius: 12px;
+  font-size: 15px;
+  cursor: pointer;
+  margin: 6px;
+}
+
+.primary {
+  background: #ff4d6d;
+  color: white;
+}
+
+.secondary {
+  background: #ddd;
+  color: #444;
+}
+
+#no {
+  position: absolute;
+  background: #bbb;
+  color: white;
+}
+
+input[type=range] {
+  width: 100%;
+}
+
+.time {
+  font-size: 13px;
+  color: #666;
+}
+
+.fade {
+  animation: fadeIn 1.5s ease;
+}
+
+@keyframes fadeIn {
+  from {opacity: 0;}
+  to {opacity: 1;}
+}
+
+/* corazones */
+.heart {
+  position: fixed;
+  bottom: -20px;
+  animation: floatUp 6s linear infinite;
+  opacity: 0.8;
+  z-index: 1;
+}
+
+@keyframes floatUp {
+  from {transform: translateY(0);}
+  to {transform: translateY(-110vh); opacity: 0;}
+}
+</style>
+</head>
+
+<body>
+
+<div id="memoryBackground"></div>
+<div id="darkOverlay" style="display:none;"></div>
+
+<div class="card" id="card"></div>
+
+<audio id="music" src="amor-del-bueno.mp3"></audio>
+
+<script>
+const music = document.getElementById("music");
+const memoryBg = document.getElementById("memoryBackground");
+const overlay = document.getElementById("darkOverlay");
+
+const memories = [
+  "media/foto1.jpg",
+  "media/foto2.jpg",
+  "media/foto3.jpg",
+  "media/foto4.jpg",
+  "media/video1.mp4",
+  "media/video2.mp4",
+  "media/video3.mp4",
+  "media/video4.mp4"
+];
+
+let memoryIndex = 0;
+
+// ---- PANTALLA 1 ----
+function startScreen() {
+  const card = document.getElementById("card");
+  card.innerHTML = `
+    <div class="fade" style="opacity:0;">
+      <h1>Holaa mi amor, tengo algo que decirte 💖</h1>
+      <button class="primary" id="btn1">Continuar ➡️</button>
+    </div>
+  `;
+  const fadeDiv = card.querySelector(".fade");
+  setTimeout(() => { fadeDiv.style.transition="opacity 1s"; fadeDiv.style.opacity=1; }, 50);
+  document.getElementById("btn1").onclick = screenTwo;
+}
+
+// ---- PANTALLA 2 ----
+function screenTwo() {
+  const card = document.getElementById("card");
+  card.innerHTML = `
+    <div class="fade" style="opacity:0;">
+      <h1>Es una pregunta que debes responder con total sinceridad 💌</h1>
+      <button class="primary" id="btn2">Continuar ➡️</button>
+    </div>
+  `;
+  const fadeDiv = card.querySelector(".fade");
+  setTimeout(() => { fadeDiv.style.transition="opacity 1s"; fadeDiv.style.opacity=1; }, 50);
+  document.getElementById("btn2").onclick = showQuestion;
+}
+
+// ---- PREGUNTA FINAL ----
+function showQuestion() {
+  const card = document.getElementById("card");
+  card.innerHTML = `
+    <div class="fade" style="opacity:0;">
+      <h1>¿Quieres ser mi San Valentín, amor? 💘</h1>
+      <small>ni se te ocurra picarle a que no eh 😏</small><br><br>
+      <button class="primary" onclick="yesClick()">Sí 💖</button>
+      <button id="no" onmouseover="moveNo()">No 🙃</button>
+    </div>
+  `;
+  const fadeDiv = card.querySelector(".fade");
+  setTimeout(() => { fadeDiv.style.transition="opacity 1s"; fadeDiv.style.opacity=1; }, 50);
+}
+
+// ---- PRIMER SÍ ----
+function yesClick() {
+  const card = document.getElementById("card");
+  card.innerHTML = `
+    <div class="fade" style="opacity:0;">
+      <h1>Sabía que dirías que sí, mi amor 💖</h1>
+      <button class="primary" id="continueBtn">Continuar ➡️</button>
+    </div>
+  `;
+  const fadeDiv = card.querySelector(".fade");
+  setTimeout(() => { fadeDiv.style.transition="opacity 1s"; fadeDiv.style.opacity=1; }, 50);
+  document.getElementById("continueBtn").onclick = showContinue;
+}
+
+// ---- CONTINUAR A CANCIÓN ----
+function showContinue() {
+  const card = document.getElementById("card");
+  card.innerHTML = `
+    <div class="fade" style="opacity:0;">
+      <h1>Te dedico esta canción 🎶</h1>
+      <button class="primary" onclick="music.play()">▶ Reproducir</button>
+      <button class="secondary" onclick="music.pause()">⏸ Pausa</button>
+
+      <input type="range" id="seekBar" value="0">
+      <div class="time">
+        <span id="current">0:00</span> ·
+        <span id="remaining">-0:00</span>
+      </div>
+
+      <p>Tengo algo más que decirte…</p>
+      <button class="primary" onclick="showFinal()">Leer 💖</button>
+    </div>
+  `;
+  const fadeDiv = card.querySelector(".fade");
+  setTimeout(() => { fadeDiv.style.transition="opacity 1s"; fadeDiv.style.opacity=1; }, 50);
+
+  music.addEventListener("timeupdate", updateProgress);
+  music.addEventListener("ended", showFinal);
+}
+
+// ---- PROGRESO ----
+function updateProgress() {
+  const bar = document.getElementById("seekBar");
+  bar.value = (music.currentTime / music.duration) * 100;
+  document.getElementById("current").textContent = format(music.currentTime);
+  document.getElementById("remaining").textContent =
+    "-" + format(music.duration - music.currentTime);
+  bar.oninput = () => { music.currentTime = (bar.value / 100) * music.duration; };
+}
+
+function format(t) {
+  const m = Math.floor(t / 60);
+  const s = Math.floor(t % 60).toString().padStart(2,"0");
+  return `${m}:${s}`;
+}
+
+// ---- MENSAJE FINAL ----
+function showFinal() {
+  music.volume = 0.25;
+  overlay.style.display = "block";
+  startMemories();
+  startHearts();
+
+  document.getElementById("card").innerHTML = `
+    <div class="fade">
+      <h1>Para ti, amor ❣️</h1>
+
+      <p>Amor mío, eres una persona increíble, una mujer magnífica que simplemente no hay palabras que describan tu perfección ante mis ojos. Te amo con todo mi corazón, eres el amor que siempre anhelé tener.</p>
+
+      <p>Te amo aún en los días que no nos entendemos, aún cuando ambos tenemos un mal día seguimos amándonos con esa intensidad que cada día aumenta más su fuerza.</p>
+
+      <p>Sé que en el mundo no hay perfectos, pero en el mío tú lo eres bb. Te amo mucho, gracias por alegrar mis días y gracias porque sin darte cuenta has sanado muchas cosas dentro de mí.</p>
+
+      <p>Eres una mujer maravillosa y espero que se nos conceda un futuro juntos como tanto lo queremos, mi amor.</p>
+
+      <p><strong>— el amor de tu vida 💖</strong></p>
+    </div>
+  `;
+}
+
+// ---- FOTOS Y VIDEOS ----
+function startMemories() {
+  showMemory();
+  setInterval(showMemory, 7000);
+}
+
+function showMemory() {
+  memoryBg.innerHTML = "";
+  const src = memories[memoryIndex];
+  if (src.endsWith(".mp4")) {
+    const v = document.createElement("video");
+    v.src = src;
+    v.autoplay = true;
+    v.muted = true;
+    v.loop = true;
+    v.style.width="100%";
+    v.style.height="100%";
+    v.style.objectFit="cover";
+    memoryBg.appendChild(v);
+  } else {
+    memoryBg.style.background = `url('${src}') center/cover no-repeat`;
+  }
+  memoryIndex = (memoryIndex + 1) % memories.length;
+}
+
+// ---- CORAZONES ----
+function startHearts() {
+  setInterval(() => {
+    const h = document.createElement("div");
+    h.className = "heart";
+    h.textContent = "💗";
+    h.style.left = Math.random() * 100 + "vw";
+    h.style.fontSize = (16 + Math.random() * 20) + "px";
+    document.body.appendChild(h);
+    setTimeout(() => h.remove(), 6000);
+  }, 600);
+}
+
+// ---- BOTÓN NO ----
+function moveNo() {
+  const b = document.getElementById("no");
+  b.style.left = Math.random() * (window.innerWidth - 120) + "px";
+  b.style.top = Math.random() * (window.innerHeight - 60) + "px";
+}
+
+// ---- INICIO ----
+startScreen();
+</script>
+
+</body>
+</html>
